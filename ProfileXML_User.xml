@@ -1,15 +1,9 @@
-<!-- This is an example Always On VPN XML configuration file. Not all settings will be required. Some are not recommended but documented for reference. -->
-<!-- IMPORTANT! XML element order is critical when deploying XML configuration files using Intune to Windows 11 endpoints! Details here: https://rmhci.co/48NTp3e -->
 <VPNProfile>
    <AlwaysOn>true</AlwaysOn>
    <DnsSuffix>corp.example.net,finance.example.net,hr.example.net,lab.example.net</DnsSuffix>
-   <!-- The TrustedNetworkDetection setting is optional and used to prevent the VPN connection from being established when the device is on the internal network. -->
    <TrustedNetworkDetection>corp.example.net</TrustedNetworkDetection>
-   <!-- The following settings are supported in Windows 11 22H2 and later. -->
    <DisableAdvancedOptionsEditButton>true</DisableAdvancedOptionsEditButton>
    <DisableDisconnectButton>true</DisableDisconnectButton>
-   <!-- Proxy server settings can be defined manually or automatically via proxy autoconfiguration script. Both are included for reference, but best practice is to use one method only. -->
-   <!-- Proxy server settings only take effect when force tunneling is enabled. These settings are ignored if split tunneling is enabled.Details here: https://rmhci.co/3TIJhTa -->
    <Proxy>
       <Manual>
          <Server>proxy.corp.example.net:8080</Server>
@@ -17,27 +11,17 @@
       <AutoConfigUrl>http://proxy.corp.example.net:8080/proxy.pac</AutoConfigUrl>
    </Proxy>
    <NativeProfile>
-      <!-- The VPN server is listed twice by design. This is required when deploying XML with Intune to Windows 11 devices. Details here: https://rmhci.co/48NTp3e -->
       <Servers>vpn.example.net;vpn.example.net</Servers>
-      <!-- The recommended routing policy type is SplitTunnel. However, ForceTunnel can be enabled if required. Details here: https://rmhci.co/2VrLDay. -->
-      <!-- If ForceTunnel is enabled, DisableClassBasedDefaultRoute must be set to 'false' or removed the element completely. Also, all Route entries with the exception of Exclusion Routes must be removed. -->
       <RoutingPolicyType>SplitTunnel</RoutingPolicyType>
-      <!-- If NativeProtocolType is set to Automatic, SSTP will be used first. Details here: https://rmhci.co/2M8EaIk. -->
-      <!-- Beginning with Windows 11 administrators can define 'SSTP' in this field to ensure SSTP is used as the VPN protocol. -->
       <NativeProtocolType>Automatic</NativeProtocolType>
       <Authentication>
          <UserMethod>EAP</UserMethod>
-         <!-- The machine EAP method must be present when deploying XML with Intune to Windows 11 devices -->
          <MachineMethod>EAP</MachineMethod>
          <Eap>
             <Configuration>
-               <!-- Use Get-EapConfiguration.ps1 (https://rmhci.co/2UqQ3jz) to extract EAP configuration from existing connection and paste file contents here! -->
             </Configuration>
          </Eap>
       </Authentication>
-      <!-- The CryptographySuite setting is optional but recommended when using IKEv2. The default security settings for IKEv2 are extremely weak. Details here: https://rmhci.co/2Eou3Op. -->
-      <!-- Enabling this setting requires the VPN server to use matching settings. A PowerShell script to configure Windows Server RRAS servers can be found here: https://rmhci.co/2WRpFgl. -->
-      <!-- The cryptography settings defined below are recommended minimum security baselines. They can be changed to meet higher level security requirements as required. -->
       <CryptographySuite>
          <AuthenticationTransformConstants>GCMAES128</AuthenticationTransformConstants>
          <CipherTransformConstants>GCMAES128</CipherTransformConstants>
@@ -46,11 +30,8 @@
          <IntegrityCheckMethod>SHA256</IntegrityCheckMethod>
          <EncryptionMethod>AES_GCM_128</EncryptionMethod>
       </CryptographySuite>
-      <!-- The DisableClassBasedDefaultRoute setting is optional but recommended. -->
       <DisableClassBasedDefaultRoute>true</DisableClassBasedDefaultRoute>
    </NativeProfile>
-   <!-- The Route setting is required when DisableClassBasedDefaultRoute is set to "true". -->
-   <!-- All RFC 1918 private IP address networks are shown here as an example. -->
    <Route>
       <Address>10.0.0.0</Address>
       <PrefixSize>8</PrefixSize>
@@ -71,7 +52,6 @@
       <PrefixSize>48</PrefixSize>
       <Metric>1</Metric>
    </Route>
-   <!-- Exclusion Routes can be configured to explicitly exempt selected IP routes from the VPN tunnel. Exclusion Routes are often used in combination with Force Tunnel, but can also be used with split tunnel configurations -->
    <Route>
       <Address>203.0.113.83</Address>
       <PrefixSize>32</PrefixSize>
@@ -84,15 +64,11 @@
       <ExclusionRoute>true</ExclusionRoute>
       <Metric>1</Metric>
    </Route>
-   <!-- The traffic filter setting is optional, but can be used to implement Zero Trust Network Access (ZTNA). Details here: https://rmhci.co/3evYeUw. -->
-   <!-- IMPORTANT! As of July 2021, traffic filters are not compatible with IPv6. Do not configure traffic filters when assigning IPv6 addresses to Always On VPN clients. Details here: https://rmhci.co/2URVny8. -->
-   <!-- Traffic filter to restrict VPN client access to TCP port 3389 (Remote Desktop Protocol) to the 172.16.0.0/24 internal network. -->
    <TrafficFilter>
       <Protocol>6</Protocol>
       <LocalPortRanges>3389</LocalPortRanges>
       <RemoteAddressRanges>172.16.0.0/24</RemoteAddressRanges>
    </TrafficFilter>
-   <!-- Traffic filter to restrict VPN client access to TCP port 3389 (Remote Desktop Protocol) to the 172.16.0.0/24 network, with application filter to restrict access to the native Windows Remote Desktop client (mstsc.exe). -->
    <TrafficFilter>
       <App>
          <Id>C:\Windows\System32\mstsc.exe</Id>
@@ -101,8 +77,6 @@
       <RemotePortRanges>3389</RemotePortRanges>
       <RemoteAddressRanges>172.16.0.0/24</RemoteAddressRanges>
    </TrafficFilter>
-   <!-- Traffic filter to restrict VPN client access to TCP port 3389 (Remote Desktop Protocol) to the 172.16.0.0/24 network, with application filter to restrict access to the Windows Store Remote Desktop client. -->
-   <!-- Use the Get-AppxPackage PowerShell command to find the Package Family Name of the Windows Store client.  -->
    <TrafficFilter>
       <App>
          <Id>Microsoft.RemoteDesktop_8wekyb3d8bbwe</Id>
@@ -111,13 +85,11 @@
       <RemotePortRanges>3389</RemotePortRanges>
       <RemoteAddressRanges>172.16.0.0/24</RemoteAddressRanges>
    </TrafficFilter>
-   <!-- Traffic filter to restrict VPN client access to UDP ports 52000 to 52112 to the 172.16.0.201 host. -->
    <TrafficFilter>
       <Protocol>17</Protocol>
       <RemotePortRanges>52000-52112</RemotePortRanges>
       <RemoteAddressRanges>172.16.0.201</RemoteAddressRanges>
    </TrafficFilter>
-   <!-- Traffic filter to restrict VPN client access to TCP port 445 (SMB) to the 172.16.0.0/24 network using SYSTEM processes such as net.exe (e.g., net view \\app1). -->
    <TrafficFilter>
       <App>
          <Id>SYSTEM</Id>
@@ -126,32 +98,21 @@
       <RemotePortRanges>445</RemotePortRanges>
       <RemoteAddressRanges>172.16.0.0/24</RemoteAddressRanges>
    </TrafficFilter>
-   <!-- Traffic filter to restrict VPN client access to TCP ports 80 and 443 to the individual servers 172.16.0.204, 172.16.0.205, and 172.16.0.6. -->
    <TrafficFilter>
       <Protocol>6</Protocol>
       <RemotePortRanges>80,443</RemotePortRanges>
       <RemoteAddressRanges>172.16.0.204,172.16.0.205,172.16.0.6</RemoteAddressRanges>
    </TrafficFilter>
-   <!-- The DomainNameInformation setting is optional. It should only be used when the DNS servers configured on the VPN server's network interface cannot resolve internal Active Directory host names. -->
-   <!-- More information regarding DNS configuration for Always On VPN can be found here: https://rmhci.co/2F7iQxP. -->
    <DomainNameInformation>
       <DomainName>.corp.example.net</DomainName>
       <DnsServers>10.21.12.100,10.21.12.101</DnsServers>
    </DomainNameInformation>
-   <!-- Optional setting to register the endpoint's IP address in internal DNS. When used with the device tunnel use this setting on one connection or the other, not both. -->
    <RegisterDNS>true</RegisterDNS>
-   <!-- The following settings supported in Windows 11 24H2 and later -->
-   <!-- Define Network Outage Time for IKEv2 -->
    <NetworkOutageTime>0</NetworkOutageTime>
-   <!-- VPN tunnel interface metric settings -->
    <IPv4InterfaceMetric>3</IPv4InterfaceMetric>
    <IPv6InterfaceMetric>3</IPv6InterfaceMetric>
-   <!-- Recommend to set to 'false' on Entra-Join only endpoints -->
    <UseRasCredentials>false</UseRasCredentials>
-   <!-- PPP encryption setting -->
    <DataEncryption>Max</DataEncryption>
-   <!-- Enforce Private Windows firewall profile -->
    <PrivateNetwork>true</PrivateNetwork>
-   <!-- Enable/Disable IKEv2 fragmentation - Recommended setting is 'false' -->
    <DisableIKEv2Fragmentation>false</DisableIKEv2Fragmentation>
 </VPNProfile>
