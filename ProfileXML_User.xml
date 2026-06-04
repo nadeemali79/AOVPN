@@ -1,7 +1,7 @@
 <VPNProfile>
    <AlwaysOn>true</AlwaysOn>
-   <DnsSuffix>corp.example.net,finance.example.net,hr.example.net,lab.example.net</DnsSuffix>
-   <TrustedNetworkDetection>corp.example.net</TrustedNetworkDetection>
+   <DnsSuffix>itkb.lab</DnsSuffix>
+   <TrustedNetworkDetection>itkb.lab</TrustedNetworkDetection>
    <DisableAdvancedOptionsEditButton>true</DisableAdvancedOptionsEditButton>
    <DisableDisconnectButton>true</DisableDisconnectButton>
    <Proxy>
@@ -11,7 +11,7 @@
       <AutoConfigUrl>http://proxy.corp.example.net:8080/proxy.pac</AutoConfigUrl>
    </Proxy>
    <NativeProfile>
-      <Servers>vpn.example.net;vpn.example.net</Servers>
+      <Servers>vpn.itkbconsultant.com</Servers>
       <RoutingPolicyType>SplitTunnel</RoutingPolicyType>
       <NativeProtocolType>Automatic</NativeProtocolType>
       <Authentication>
@@ -19,6 +19,61 @@
          <MachineMethod>EAP</MachineMethod>
          <Eap>
             <Configuration>
+<EapHostConfig xmlns="http://www.microsoft.com/provisioning/EapHostConfig">
+   <EapMethod>
+      <Type xmlns="http://www.microsoft.com/provisioning/EapCommon">25</Type>
+      <VendorId xmlns="http://www.microsoft.com/provisioning/EapCommon">0</VendorId>
+      <VendorType xmlns="http://www.microsoft.com/provisioning/EapCommon">0</VendorType>
+      <AuthorId xmlns="http://www.microsoft.com/provisioning/EapCommon">0</AuthorId>
+   </EapMethod>
+   <Config xmlns="http://www.microsoft.com/provisioning/EapHostConfig">
+      <Eap xmlns="http://www.microsoft.com/provisioning/BaseEapConnectionPropertiesV1">
+         <Type>25</Type>
+         <EapType xmlns="http://www.microsoft.com/provisioning/MsPeapConnectionPropertiesV1">
+            <ServerValidation>
+               <DisableUserPromptForServerValidation>true</DisableUserPromptForServerValidation>
+               <ServerNames>nps1.itkb.lab</ServerNames>
+               <TrustedRootCA>1c 25 61 60 c6 02 f6 b1 68 bf a4 7f 63 50 bd ff c9 87 02 c6 </TrustedRootCA>
+            </ServerValidation>
+            <FastReconnect>false</FastReconnect>
+            <InnerEapOptional>false</InnerEapOptional>
+            <Eap xmlns="http://www.microsoft.com/provisioning/BaseEapConnectionPropertiesV1">
+               <Type>13</Type>
+               <EapType xmlns="http://www.microsoft.com/provisioning/EapTlsConnectionPropertiesV1">
+                  <CredentialsSource>
+                     <CertificateStore>
+                        <SimpleCertSelection>true</SimpleCertSelection>
+                     </CertificateStore>
+                  </CredentialsSource>
+                  <ServerValidation>
+                     <DisableUserPromptForServerValidation>true</DisableUserPromptForServerValidation>
+                     <ServerNames>nps1.itkb.lab</ServerNames>
+                     <TrustedRootCA>1c 25 61 60 c6 02 f6 b1 68 bf a4 7f 63 50 bd ff c9 87 02 c6 </TrustedRootCA>
+                  </ServerValidation>
+                  <DifferentUsername>false</DifferentUsername>
+                  <PerformServerValidation xmlns="http://www.microsoft.com/provisioning/EapTlsConnectionPropertiesV2">true</PerformServerValidation>
+                  <AcceptServerName xmlns="http://www.microsoft.com/provisioning/EapTlsConnectionPropertiesV2">true</AcceptServerName>
+                  <TLSExtensions xmlns="http://www.microsoft.com/provisioning/EapTlsConnectionPropertiesV2">
+                     <FilteringInfo xmlns="http://www.microsoft.com/provisioning/EapTlsConnectionPropertiesV3">
+                        <CAHashList Enabled="true">
+                           <IssuerHash>1c 25 61 60 c6 02 f6 b1 68 bf a4 7f 63 50 bd ff c9 87 02 c6 </IssuerHash>
+                           <IssuerHash>1c 25 61 60 c6 02 f6 b1 68 bf a4 7f 63 50 bd ff c9 87 02 c6 </IssuerHash>
+                        </CAHashList>
+                        <ClientAuthEKUList Enabled="true" />
+                     </FilteringInfo>
+                  </TLSExtensions>
+               </EapType>
+            </Eap>
+            <EnableQuarantineChecks>false</EnableQuarantineChecks>
+            <RequireCryptoBinding>true</RequireCryptoBinding>
+            <PeapExtensions>
+               <PerformServerValidation xmlns="http://www.microsoft.com/provisioning/MsPeapConnectionPropertiesV2">true</PerformServerValidation>
+               <AcceptServerName xmlns="http://www.microsoft.com/provisioning/MsPeapConnectionPropertiesV2">true</AcceptServerName>
+            </PeapExtensions>
+         </EapType>
+      </Eap>
+   </Config>
+</EapHostConfig>
             </Configuration>
          </Eap>
       </Authentication>
@@ -33,18 +88,18 @@
       <DisableClassBasedDefaultRoute>true</DisableClassBasedDefaultRoute>
    </NativeProfile>
    <Route>
-      <Address>10.0.0.0</Address>
-      <PrefixSize>8</PrefixSize>
+      <Address>10.20.30.0</Address>
+      <PrefixSize>24</PrefixSize>
       <Metric>1</Metric>
    </Route>
    <Route>
       <Address>172.16.0.0</Address>
-      <PrefixSize>12</PrefixSize>
+      <PrefixSize>16</PrefixSize>
       <Metric>1</Metric>
    </Route>
    <Route>
-      <Address>192.168.0.0</Address>
-      <PrefixSize>16</PrefixSize>
+      <Address>192.168.1.0</Address>
+      <PrefixSize>24</PrefixSize>
       <Metric>1</Metric>
    </Route>
    <Route>
@@ -58,54 +113,9 @@
       <ExclusionRoute>true</ExclusionRoute>
       <Metric>1</Metric>
    </Route>
-   <Route>
-      <Address>192.0.2.0</Address>
-      <PrefixSize>24</PrefixSize>
-      <ExclusionRoute>true</ExclusionRoute>
-      <Metric>1</Metric>
-   </Route>
-   <TrafficFilter>
-      <Protocol>6</Protocol>
-      <LocalPortRanges>3389</LocalPortRanges>
-      <RemoteAddressRanges>172.16.0.0/24</RemoteAddressRanges>
-   </TrafficFilter>
-   <TrafficFilter>
-      <App>
-         <Id>C:\Windows\System32\mstsc.exe</Id>
-      </App>
-      <Protocol>6</Protocol>
-      <RemotePortRanges>3389</RemotePortRanges>
-      <RemoteAddressRanges>172.16.0.0/24</RemoteAddressRanges>
-   </TrafficFilter>
-   <TrafficFilter>
-      <App>
-         <Id>Microsoft.RemoteDesktop_8wekyb3d8bbwe</Id>
-      </App>
-      <Protocol>6</Protocol>
-      <RemotePortRanges>3389</RemotePortRanges>
-      <RemoteAddressRanges>172.16.0.0/24</RemoteAddressRanges>
-   </TrafficFilter>
-   <TrafficFilter>
-      <Protocol>17</Protocol>
-      <RemotePortRanges>52000-52112</RemotePortRanges>
-      <RemoteAddressRanges>172.16.0.201</RemoteAddressRanges>
-   </TrafficFilter>
-   <TrafficFilter>
-      <App>
-         <Id>SYSTEM</Id>
-      </App>
-      <Protocol>6</Protocol>
-      <RemotePortRanges>445</RemotePortRanges>
-      <RemoteAddressRanges>172.16.0.0/24</RemoteAddressRanges>
-   </TrafficFilter>
-   <TrafficFilter>
-      <Protocol>6</Protocol>
-      <RemotePortRanges>80,443</RemotePortRanges>
-      <RemoteAddressRanges>172.16.0.204,172.16.0.205,172.16.0.6</RemoteAddressRanges>
-   </TrafficFilter>
    <DomainNameInformation>
-      <DomainName>.corp.example.net</DomainName>
-      <DnsServers>10.21.12.100,10.21.12.101</DnsServers>
+      <DomainName>itkb.lab</DomainName>
+      <DnsServers>10.1.10.10</DnsServers>
    </DomainNameInformation>
    <RegisterDNS>true</RegisterDNS>
    <NetworkOutageTime>0</NetworkOutageTime>
