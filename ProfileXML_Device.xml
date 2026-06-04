@@ -24,17 +24,12 @@
       <DisableClassBasedDefaultRoute>true</DisableClassBasedDefaultRoute>
    </NativeProfile>
    <Route>
-      <Address>10.1.10.10</Address>
-      <PrefixSize>32</PrefixSize>
+      <Address>10.1.10.0</Address>
+      <PrefixSize>24</PrefixSize>
       <Metric>1</Metric>
    </Route>
    <Route>
-      <Address>10.1.10.11</Address>
-      <PrefixSize>32</PrefixSize>
-      <Metric>1</Metric>
-   </Route>
-   <Route>
-      <Address>10.1.10.12</Address>
+      <Address>10.20.30.11</Address>
       <PrefixSize>32</PrefixSize>
       <Metric>1</Metric>
    </Route>
