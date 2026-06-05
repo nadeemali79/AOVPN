@@ -19,61 +19,7 @@
          <MachineMethod>EAP</MachineMethod>
          <Eap>
             <Configuration>
-<EapHostConfig xmlns="http://www.microsoft.com/provisioning/EapHostConfig">
-   <EapMethod>
-      <Type xmlns="http://www.microsoft.com/provisioning/EapCommon">25</Type>
-      <VendorId xmlns="http://www.microsoft.com/provisioning/EapCommon">0</VendorId>
-      <VendorType xmlns="http://www.microsoft.com/provisioning/EapCommon">0</VendorType>
-      <AuthorId xmlns="http://www.microsoft.com/provisioning/EapCommon">0</AuthorId>
-   </EapMethod>
-   <Config xmlns="http://www.microsoft.com/provisioning/EapHostConfig">
-      <Eap xmlns="http://www.microsoft.com/provisioning/BaseEapConnectionPropertiesV1">
-         <Type>25</Type>
-         <EapType xmlns="http://www.microsoft.com/provisioning/MsPeapConnectionPropertiesV1">
-            <ServerValidation>
-               <DisableUserPromptForServerValidation>true</DisableUserPromptForServerValidation>
-               <ServerNames>nps1.itkb.lab</ServerNames>
-               <TrustedRootCA>1c 25 61 60 c6 02 f6 b1 68 bf a4 7f 63 50 bd ff c9 87 02 c6 </TrustedRootCA>
-            </ServerValidation>
-            <FastReconnect>false</FastReconnect>
-            <InnerEapOptional>false</InnerEapOptional>
-            <Eap xmlns="http://www.microsoft.com/provisioning/BaseEapConnectionPropertiesV1">
-               <Type>13</Type>
-               <EapType xmlns="http://www.microsoft.com/provisioning/EapTlsConnectionPropertiesV1">
-                  <CredentialsSource>
-                     <CertificateStore>
-                        <SimpleCertSelection>true</SimpleCertSelection>
-                     </CertificateStore>
-                  </CredentialsSource>
-                  <ServerValidation>
-                     <DisableUserPromptForServerValidation>true</DisableUserPromptForServerValidation>
-                     <ServerNames>nps1.itkb.lab</ServerNames>
-                     <TrustedRootCA>1c 25 61 60 c6 02 f6 b1 68 bf a4 7f 63 50 bd ff c9 87 02 c6 </TrustedRootCA>
-                  </ServerValidation>
-                  <DifferentUsername>false</DifferentUsername>
-                  <PerformServerValidation xmlns="http://www.microsoft.com/provisioning/EapTlsConnectionPropertiesV2">true</PerformServerValidation>
-                  <AcceptServerName xmlns="http://www.microsoft.com/provisioning/EapTlsConnectionPropertiesV2">true</AcceptServerName>
-                  <TLSExtensions xmlns="http://www.microsoft.com/provisioning/EapTlsConnectionPropertiesV2">
-                     <FilteringInfo xmlns="http://www.microsoft.com/provisioning/EapTlsConnectionPropertiesV3">
-                        <CAHashList Enabled="true">
-                           <IssuerHash>1c 25 61 60 c6 02 f6 b1 68 bf a4 7f 63 50 bd ff c9 87 02 c6 </IssuerHash>
-                           <IssuerHash>1c 25 61 60 c6 02 f6 b1 68 bf a4 7f 63 50 bd ff c9 87 02 c6 </IssuerHash>
-                        </CAHashList>
-                        <ClientAuthEKUList Enabled="true" />
-                     </FilteringInfo>
-                  </TLSExtensions>
-               </EapType>
-            </Eap>
-            <EnableQuarantineChecks>false</EnableQuarantineChecks>
-            <RequireCryptoBinding>true</RequireCryptoBinding>
-            <PeapExtensions>
-               <PerformServerValidation xmlns="http://www.microsoft.com/provisioning/MsPeapConnectionPropertiesV2">true</PerformServerValidation>
-               <AcceptServerName xmlns="http://www.microsoft.com/provisioning/MsPeapConnectionPropertiesV2">true</AcceptServerName>
-            </PeapExtensions>
-         </EapType>
-      </Eap>
-   </Config>
-</EapHostConfig>
+               <!-- Extract EAP configuration from existing connection and paste file contents here! -->
             </Configuration>
          </Eap>
       </Authentication>
